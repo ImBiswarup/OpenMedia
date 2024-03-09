@@ -27,7 +27,7 @@ const Navbar = () => {
         <Link to="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           <span className='text-2xl font-bold'>OpenMedia</span>
         </Link>
-        <div className="relative flex items-center ml-10 w-[17.15rem]">
+        <div className="relative flex items-center ml-10 w-[16.5rem]">
           <input
             type="text"
             className="bg-white text-black border-0 px-3 py-2 rounded-lg focus:outline-none w-full"
@@ -37,7 +37,7 @@ const Navbar = () => {
             <FiSearch />
           </span>
         </div>
-        <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-lg justify-evenly cursor-pointer gap-x-16">
+        <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-lg justify-evenly cursor-pointer gap-x-24">
           <Link to='/'
             className={`mr-5 hover:text-white cursor-pointer hover:scale-125 transition-all ${isActive('/')}`}
             onClick={() => handleTabClick('home')}

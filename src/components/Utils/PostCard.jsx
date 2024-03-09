@@ -4,8 +4,6 @@ import { FaComment, FaShare } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoSend } from 'react-icons/io5';
 import { MdAddPhotoAlternate } from "react-icons/md";
-import { FaNoteSticky } from "react-icons/fa6";
-import { MdEmojiEmotions } from "react-icons/md";
 
 
 import userImage from '../../images/userImage.jpg';
@@ -27,7 +25,7 @@ const PostCard = () => {
         setFiles(mediaFile);
     };
     return (
-        <div className='flex-col'>
+        <div className='flex-col mx-auto w-full'>
             <div className="w-1/2 relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
                 <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
                 <label htmlFor="file-upload" className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
@@ -37,7 +35,7 @@ const PostCard = () => {
                         className="hidden"
                         onChange={showUpload}
                     />
-                    <MdAddPhotoAlternate size={30} />
+                    <MdAddPhotoAlternate className='text-gray-500 hover:text-gray-900 ' size={30} />
                 </label>
                 <input className='w-full h-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
             </div>
