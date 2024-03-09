@@ -1,8 +1,6 @@
-// HomePage.js
-
 import React from 'react';
-import Sidebar from './Utils/Sidebar';
 import PostCard from './Utils/PostCard';
+import Sidebar from './Utils/Sidebar';
 
 const HomePage = () => {
   return (
