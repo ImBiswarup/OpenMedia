@@ -11,7 +11,23 @@ import Post from '../data/posts';
 
 const PostCard = () => {
 
+    const [commentBar, setCommentBar] = useState(false);
+    const [post, setPost] = useState("");
+    const [comment, setComment] = useState("");
     const [files, setFiles] = useState("");
+    
+    const commentLoader = (e) => {
+        setComment(e.target.value);
+    }
+    const postLoader = (e) => {
+        setPost(e.target.value);
+    }
+
+    console.log(comment, post)
+
+    const commentBarShow = () => {
+        setCommentBar(!commentBar);
+    }
 
     useEffect(() => {
         console.log(files);
@@ -37,7 +53,10 @@ const PostCard = () => {
                     />
                     <MdAddPhotoAlternate className='text-gray-500 hover:text-gray-900 ' size={30} />
                 </label>
-                <input className='w-full h-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
+                <input
+                value={post}
+                onChange={postLoader}
+                 className='w-full h-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
             </div>
             {Post.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
@@ -68,7 +87,7 @@ const PostCard = () => {
                                     <AiFillLike size={30} />
                                     <span className='text-xl font-medium'>Like</span>
                                 </button>
-                                <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-all focus:outline-none">
+                                <button onClick={commentBarShow} className={`flex items-center space-x-1 text-gray-700 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 transition-all focus:outline-none`}>
                                     <FaComment size={30} />
                                     <span className='text-xl font-medium'>Comment</span>
                                 </button>
@@ -79,11 +98,13 @@ const PostCard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="relative bg-white dark:bg-gray-800 p-4">
-                        <IoSend size={28} className="absolute top-1/2 transform -translate-y-1/2 right-8 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
+                    <div className={`relative bg-white dark:bg-gray-800 p-4 ${commentBar ? "hidden" : ""}`}>
+                        <IoSend size={28} className={`absolute top-1/2 transform -translate-y-1/2 right-8 text-gray-500 hover:text-gray-900 transition-all cursor-pointer `} />
                         <input
                             type="text"
-                            className="w-full p-2 border text-gray-900 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+                            value={comment}
+                            onChange={commentLoader}
+                            className={`w-full p-2 border text-gray-900 border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500`}
                             placeholder="Write what you want..."
                         />
                     </div>
