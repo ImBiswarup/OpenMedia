@@ -1,4 +1,3 @@
-import Navbar from './components/Utils/Navbar'
 import HomePage from './components/HomePage'
 import VideoPage from './components/VideoPage';
 import FriendsPage from './components/FriendsPage';
@@ -12,7 +11,6 @@ function App() {
 
   return (
     <div className='text-gray-400 bg-gray-900'>
-      <Navbar />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route exact path='/videos' element={<VideoPage />} />

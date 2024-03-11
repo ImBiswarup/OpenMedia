@@ -34,16 +34,19 @@ const Sidebar = () => {
                 <div className="image flex items-center justify-center p-4">
                     <img className="rounded-full h-28 w-28" src={userImage} alt="User Profile" />
                 </div>
-                <div className="desc mb-2">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores, neque.
+                <div className="desc mb-2 text-2xl font-semibold">
+                    Name
                 </div>
+                <button className='hover:bg-blue-500 text-lg transition-all rounded-xl p-2'>
+                    Edit profile
+                </button>
             </div>
             <div className="mt-4 md:mt-0 flex-col items-center justify-center">
                 {sidebarLinks.map((item) => (
                     <Link
                         key={item.name}
                         to={item.path}
-                        className="relative rounded text-gray-200 container h-14 flex items-center justify-center mx-auto hover:text-slate-400"
+                        className="relative rounded text-gray-200 container h-14 flex items-center justify-center mx-auto transition-all hover:text-slate-400"
                     >
                         {item.icon}
                         <span className="w-full text-center text-2xl">{item.name}</span>

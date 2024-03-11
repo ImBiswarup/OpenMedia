@@ -36,7 +36,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className={`bg-gray-900 text-white body-font fixed w-full transition-all z-10 ${isactive ? "fixed" : "hidden"}`}>
+    <header className={`bg-gray-900 text-white body-font sticky w-full transition-all z-10`}>
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link to="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           <span className='text-2xl font-bold'>OpenMedia</span>
