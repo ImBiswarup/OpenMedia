@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaHome, FaUserPlus, FaVideo, FaSearch } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaHome, FaUserPlus, FaVideo } from 'react-icons/fa';
 import { IoPeople } from 'react-icons/io5';
 import { FiSearch } from 'react-icons/fi';
 import { AiFillMessage } from 'react-icons/ai';
@@ -8,13 +8,13 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const [search, setSearch] = useState("")
   const location = useLocation();
+  const [isactive, setIsactive] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
-  
+
   const searchLoader = (e) => {
-      setSearch(e.target.value);
+    setSearch(e.target.value);
   }
-  console.log(search)
-  
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -25,13 +25,23 @@ const Navbar = () => {
     location.pathname === path ? 'text-white scale-125 font-semibold' : 'text-gray-400'
   );
 
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      window.scrollY > 78 ? setIsactive(true) : setIsactive(false);
+    });
+    return () => {
+      window.removeEventListener("scroll", () => {
+      });
+    };
+  }, []);
+
   return (
-    <header className="bg-gray-900 text-white body-font sticky z-10">
+    <header className={`bg-gray-900 text-white body-font fixed w-full transition-all z-10 ${isactive ? "fixed" : "hidden"}`}>
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link to="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           <span className='text-2xl font-bold'>OpenMedia</span>
         </Link>
-        <div className="relative flex items-center ml-10 w-[16.5rem]">
+        <div className="relative flex items-center ml-10 w-[16.5rem] md:mb-0 mb-5 mt-3">
           <input
             type="text"
             value={search}
@@ -43,7 +53,7 @@ const Navbar = () => {
             <FiSearch />
           </span>
         </div>
-        <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-lg justify-evenly cursor-pointer gap-x-8">
+        <nav className="md:ml-auto md:mr-auto mx-auto flex flex-wrap items-center text-lg justify-evenly cursor-pointer gap-x-8">
           <Link
             to='/'
             className={`mr-5 hover:text-white cursor-pointer hover:scale-125 transition-all ${isActive('/')}`}
@@ -75,7 +85,7 @@ const Navbar = () => {
         </nav>
         <Link
           to="/log-in"
-          className={`mr-5 hover:text-white cursor-pointer hover:scale-125 transition-all text-center ${isActive('/log-in')}`}
+          className={`mr-5 hover:text-white hover:border-blue-600 mt-3 mb-2 md:mt-0 md:mb-0 cursor-pointer hover:scale-125 transition-all text-center ${isActive('/log-in')}`}
           onClick={() => handleTabClick('log-in')}
         >
           <FaUserPlus size={35} style={{ ...iconStyles, color: activeTab === 'log-in' ? 'white' : '' }} />

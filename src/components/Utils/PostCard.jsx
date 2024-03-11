@@ -11,11 +11,11 @@ import Post from '../data/posts';
 
 const PostCard = () => {
 
-    const [commentBar, setCommentBar] = useState(false);
+    const [commentBar, setCommentBar] = useState(true);
     const [post, setPost] = useState("");
     const [comment, setComment] = useState("");
     const [files, setFiles] = useState("");
-    
+
     const commentLoader = (e) => {
         setComment(e.target.value);
     }
@@ -23,14 +23,11 @@ const PostCard = () => {
         setPost(e.target.value);
     }
 
-    console.log(comment, post)
-
     const commentBarShow = () => {
         setCommentBar(!commentBar);
     }
 
     useEffect(() => {
-        console.log(files);
     }, [files]);
 
     const showUpload = (e) => {
@@ -41,8 +38,8 @@ const PostCard = () => {
         setFiles(mediaFile);
     };
     return (
-        <div className='flex-col mx-auto w-full'>
-            <div className="w-1/2 relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
+        <div className='flex-col mx-auto w-full mt-5'>
+            <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
                 <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
                 <label htmlFor="file-upload" className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
                     <input
@@ -54,9 +51,9 @@ const PostCard = () => {
                     <MdAddPhotoAlternate className='text-gray-500 hover:text-gray-900 ' size={30} />
                 </label>
                 <input
-                value={post}
-                onChange={postLoader}
-                 className='w-full h-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
+                    value={post}
+                    onChange={postLoader}
+                    className='w-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
             </div>
             {Post.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">

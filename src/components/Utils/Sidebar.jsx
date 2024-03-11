@@ -1,30 +1,57 @@
-import React from 'react'
+import React from 'react';
 import userImage from '../../images/userImage.jpg';
-import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { FaHome, FaUserPlus, FaVideo } from 'react-icons/fa';
+import { AiFillMessage } from 'react-icons/ai';
 
+const sidebarLinks = [
+    {
+        icon: <FaHome size={50} />,
+        name: 'Home',
+        path: '/'
+    },
+    {
+        icon: <FaVideo size={50} />,
+        name: 'Video',
+        path: '/videos'
+    },
+    {
+        icon: <FaUserPlus size={50} />,
+        name: 'Friends',
+        path: '/friends'
+    },
+    {
+        icon: <AiFillMessage size={50} />,
+        name: 'Chats',
+        path: '/chats'
+    },
+];
 
 const Sidebar = () => {
     return (
-        <div className='flex-col flex text-white w-full md:w-[30%] mx-auto text-center sticky md:ml-4'>
-            <div className="bg-red-500 rounded-lg p-4">
+        <div className="hidden lg:flex-col lg:flex text-white md:w-[30%] mx-auto text-center sticky md:ml-4">
+            <div className="p-4">
                 <div className="image flex items-center justify-center p-4">
-                    <img className='rounded-full h-28 w-28' src={userImage} alt="User Profile" />
+                    <img className="rounded-full h-28 w-28" src={userImage} alt="User Profile" />
                 </div>
                 <div className="desc mb-2">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores, neque.
                 </div>
             </div>
-            <div className="bg-green-500 rounded-lg mt-4 md:mt-0">
-                <Link to={'/'} className=" relative rounded text-black container h-14 flex items-center justify-center mx-auto">
-                    <FaHome className='text-gray-500 ml-2 cursor-pointer' size={50} />
-                    <span className='w-full text-2xl -ml-8 rounded outline-none pl-2'>
-                       Home
-                    </span>
-                </Link>
+            <div className="mt-4 md:mt-0 flex-col items-center justify-center">
+                {sidebarLinks.map((item) => (
+                    <Link
+                        key={item.name}
+                        to={item.path}
+                        className="relative rounded text-gray-200 container h-14 flex items-center justify-center mx-auto hover:text-slate-400"
+                    >
+                        {item.icon}
+                        <span className="w-full text-center text-2xl">{item.name}</span>
+                    </Link>
+                ))}
             </div>
         </div>
     );
 };
 
-export default Sidebar
+export default Sidebar;

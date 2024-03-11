@@ -5,7 +5,7 @@ import Sidebar from './Utils/Sidebar';
 const HomePage = () => {
   return (
     <>
-      <div className="flex overflow-scroll shadow-lg no-scrollbar h-screen">
+      <div className="flex overflow-scroll">
         <Sidebar />
         <PostCard />
       </div>
