@@ -6,11 +6,13 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 
 import { Routes, Route } from "react-router-dom";
+import Navbar from './components/Utils/Navbar';
 
 function App() {
 
   return (
     <div className='text-gray-400 bg-gray-900'>
+      <Navbar />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route exact path='/videos' element={<VideoPage />} />

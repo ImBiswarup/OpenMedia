@@ -6,14 +6,14 @@ import { AiFillMessage } from 'react-icons/ai';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const location = useLocation();
   const [isactive, setIsactive] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
 
   const searchLoader = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -25,23 +25,13 @@ const Navbar = () => {
     location.pathname === path ? 'text-white scale-125 font-semibold' : 'text-gray-400'
   );
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      window.scrollY > 78 ? setIsactive(true) : setIsactive(false);
-    });
-    return () => {
-      window.removeEventListener("scroll", () => {
-      });
-    };
-  }, []);
-
   return (
-    <header className={`bg-gray-900 text-white body-font sticky w-full transition-all z-10`}>
+    <header className={`bg-gray-900 text-white body-font relative w-full transition-all z-10`}>
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link to="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
           <span className='text-2xl font-bold'>OpenMedia</span>
         </Link>
-        <div className="relative flex items-center ml-10 w-[16.5rem] md:mb-0 mb-5 mt-3">
+        <div className="relative md:flex hidden items-center md:ml-10 w-full md:w-[16.5rem] mb-5 mt-3">
           <input
             type="text"
             value={search}
@@ -85,7 +75,7 @@ const Navbar = () => {
         </nav>
         <Link
           to="/log-in"
-          className={`mr-5 hover:text-white hover:border-blue-600 mt-3 mb-2 md:mt-0 md:mb-0 cursor-pointer hover:scale-125 transition-all text-center ${isActive('/log-in')}`}
+          className={`mr-5 mt-3 mb-2 md:mt-0 md:mb-0 cursor-pointer hover:scale-125 transition-all text-center ${isActive('/log-in')}`}
           onClick={() => handleTabClick('log-in')}
         >
           <FaUserPlus size={35} style={{ ...iconStyles, color: activeTab === 'log-in' ? 'white' : '' }} />
