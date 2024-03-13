@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/login', { email, password });
-      console.log(response.data);
+      console.log(response);
       // Handle successful login, e.g., redirect user to dashboard
     } catch (error) {
       setError(error.response.data.message);

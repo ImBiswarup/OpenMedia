@@ -5,16 +5,15 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoSend } from 'react-icons/io5';
 import { MdAddPhotoAlternate } from "react-icons/md";
 
-
 import userImage from '../../images/userImage.jpg';
 import Post from '../data/posts';
 
 const PostCard = () => {
-
     const [commentBar, setCommentBar] = useState(true);
     const [post, setPost] = useState("");
     const [comment, setComment] = useState("");
     const [files, setFiles] = useState("");
+    const [description, setDescription] = useState("");
 
     const commentLoader = (e) => {
         setComment(e.target.value);
@@ -37,6 +36,38 @@ const PostCard = () => {
         }
         setFiles(mediaFile);
     };
+
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    }
+
+    const handleUpload = () => {
+        const formData = new FormData();
+        formData.append('image', files);
+        formData.append('username', 'Test User'); // Change to dynamic username if needed
+        formData.append('desc', description); // Adding description to the form data
+
+        // Send the formData to the backend for uploading
+        // Replace the URL with your backend endpoint
+        fetch('http://localhost:5000/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to upload file');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                // Optionally, you can update state or perform any action upon successful upload
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+            });
+    };
+
     return (
         <div className='flex-col mx-auto w-full mt-5'>
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
@@ -54,7 +85,13 @@ const PostCard = () => {
                     value={post}
                     onChange={postLoader}
                     className='w-full rounded outline-none pl-2' type="text" placeholder="Share what's on your mind" />
+                <input
+                    value={description}
+                    onChange={handleDescriptionChange}
+                    className='w-full rounded outline-none pl-2' type="text" placeholder="What's on your mind" />
+                <button onClick={handleUpload}></button>
             </div>
+
             {Post.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
                     <div className="bg-white dark:bg-gray-800">
