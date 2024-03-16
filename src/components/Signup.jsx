@@ -29,6 +29,7 @@ const Signup = () => {
       console.error('Signup error:', error.message);
       alert('Signup failed. Please try again.');
     }
+    window.location.href = '/log-in';
   };
 
   return (

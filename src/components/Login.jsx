@@ -10,23 +10,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/login', { email, password });
-      console.log(response);
-      // Handle successful login, e.g., redirect user to dashboard
+      window.location.href = "/";
     } catch (error) {
       setError(error.response.data.message);
     }
   };
 
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('http://localhost:3000/api/register', { email, password });
-  //     console.log(response.data);
-  //     // Handle successful registration
-  //   } catch (error) {
-  //     setError(error.response.data.message);
-  //   }
-  // };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
