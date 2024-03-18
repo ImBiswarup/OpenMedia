@@ -156,18 +156,10 @@ const PostCard = () => {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
 
-    const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
-    };
-
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
-    };
-
     const handleUpload = () => {
         const formData = new FormData();
-        formData.append('image', image);
-        formData.append('content', description);
+        formData.append('image', image); // Append image file
+        formData.append('description', description); // Append text content
 
         axios.post('http://localhost:5000/api/posts/upload', formData)
             .then(response => {
@@ -175,30 +167,31 @@ const PostCard = () => {
                 // Handle success response
             })
             .catch(error => {
-                console.error('Error uploading file:', error);
+                alert(error)
                 // Handle error
             });
     };
 
     return (
         <div className='flex-col mx-auto w-full mt-5'>
-            <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
-                <input
-                    type="file"
-                    onChange={handleImageChange}
-                />
-                <input
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    className='w-full rounded outline-none pl-2'
-                    type="text"
-                    placeholder="What's on your mind"
-                />
-                <button onClick={handleUpload}>Upload</button>
-            </div>
+            <form action="http://localhost:5173/" method="post" encType='multipart/form-data'>
+                <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
+                    <input
+                        type="file"
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
+                    <input
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className='w-full rounded outline-none pl-2'
+                        type="text"
+                        placeholder="What's on your mind"
+                    />
+                    <button onClick={handleUpload}>Upload</button>
+                </div>
+            </form>
         </div>
     );
 };
 
 export default PostCard;
-
