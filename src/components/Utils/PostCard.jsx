@@ -17,47 +17,10 @@ const PostCard = () => {
     const [image, setImage] = useState("");
     const [posts, setPosts] = useState([""]);
 
-    const handleUpload = () => {
-        try {
-            const formData = new FormData();
-            if (!description) alert('Description cannot be empty');
-            formData.append('image', image); // Append image file
-            formData.append('description', description); // Append text content
-            axios.post('http://localhost:5000/api/posts/upload', formData)
-                .then(response => {
-                    console.log(response.data);
-                    setDescription("");
-                    setImage("");
-                })
-
-        } catch (error) {
-            console.log(error)
-        }
-    };
-    const handleShowPost = () => {
-        axios.get('http://localhost:5000/api/posts')
-            .then((res) => {
-                setPosts(res.data);
-                // console.log(res.data);
-                console.log("post state")
-                console.log(posts)
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-
-    useEffect(() => {
-        handleShowPost();
-    }, []);
-
-
-
-
     return (
         <div className='flex-col mx-auto w-full mt-5'>
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
-                <IoSend onClick={handleUpload} size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
+                <IoSend  size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
                 <label className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
                     <input
                         type="file"
@@ -88,7 +51,7 @@ const PostCard = () => {
                         <div className="p-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
-                                    {/* <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" /> */}
+                                    <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                     <div>
                                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
                                             {item._id}
@@ -103,7 +66,7 @@ const PostCard = () => {
                         </div>
                         <div className="p-4 pt-2">
                             <p className="text-gray-800 dark:text-gray-200">{item.description}</p>
-                            {/* <img className="w-full h-96 object-cover mt-4 rounded-lg" src={item.imageUrl} alt="Bonnie" /> */}
+                            <img className="w-full h-96 object-cover mt-4 rounded-lg" src={item.imageUrl} alt="Bonnie" />
                         </div>
                         <div className="p-4 border-t dark:border-gray-700">
                             <div className="flex justify-between mt-2">

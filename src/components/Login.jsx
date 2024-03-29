@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 const Login = () => {
+  const cookies = new Cookies();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:5000/api/login', { email, password });
-      window.location.href = "/";
-    } catch (error) {
-      setError(error.response.data.message);
-    }
-  };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
@@ -45,12 +36,11 @@ const Login = () => {
             />
           </div>
           <button
-            onClick={handleLogin}
             className="w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 text-white font-semibold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Login to your account
           </button>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered? <a href="/sign-up" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
           </div>

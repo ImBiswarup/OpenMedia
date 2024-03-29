@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const Signup = () => {
@@ -5,43 +6,18 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch('http://localhost:5000/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, name, password })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
-
-      // Handle successful signup
-      alert('Signup successful');
-      
-    } catch (error) {
-      console.error('Signup error:', error.message);
-      alert('Signup failed. Please try again.');
-    }
-    window.location.href = '/log-in';
-  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <div className="w-full max-w-md p-4 bg-gray-100 dark:bg-gray-800 border rounded-lg shadow-md">
-        <form className="space-y-6" onSubmit={handleSignup}>
+        <form className="space-y-6">
           <h5 className="text-2xl font-semibold text-gray-200">Sign up in our platform</h5>
           <div>
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
             <input
               type="email"
               value={email}
+              name='email'
               onChange={(e) => setEmail(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="name@company.com"
@@ -53,6 +29,7 @@ const Signup = () => {
             <input
               type="text"
               value={name}
+              name='name'
               onChange={(e) => setName(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="Your username"
@@ -64,6 +41,7 @@ const Signup = () => {
             <input
               type="password"
               value={password}
+              name='password'
               onChange={(e) => setPassword(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="••••••••"
