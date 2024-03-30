@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+
 
 const Login = () => {
-  const cookies = new Cookies();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const login = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/user/login', {
+        email,
+        password,
+      });
+      console.log(response.data);
+      window.location.href = '/';
+    } catch (error) {
+      console.log(error.response.data.msg); 
+      setErrorMessage(error.response.data.msg);
+      console.log(error);
+    }
+
+    
+  };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
@@ -35,14 +54,16 @@ const Login = () => {
               required
             />
           </div>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <button
+            type="button"
             className="w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 text-white font-semibold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={login}
           >
             Login to your account
           </button>
-          {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered? <a href="/sign-up" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+            Not registered? <Link to="/sign-up" className="text-blue-700 hover:underline dark:text-blue-500">Create account</Link>
           </div>
         </form>
       </div>
