@@ -18,11 +18,9 @@ const Signup = () => {
         password
       });
       console.log('response:', response.data);
-      // alert(`Welcome ${response.data.user.username}`);
-      // window.location.href = '/log-in';
+      alert(response.data.msg);
+      window.location.href = '/log-in';
     } catch (error) {
-      // console.error('Error:', error);
-      console.log(error.response.data.error);
       setErrorMessage(error.response.data.error);
     }
   };

@@ -7,6 +7,7 @@ import Signup from "./components/Signup";
 
 import { Routes, Route } from "react-router-dom";
 import Navbar from './components/Utils/Navbar';
+import PostPage from './components/PostPage';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
+        <Route exact path='/:postID' element={<PostPage />} />
         <Route exact path='/videos' element={<VideoPage />} />
         <Route exact path='/friends' element={<FriendsPage />} />
         <Route exact path='/chats' element={<ChatPage />} />

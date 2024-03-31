@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { AiFillLike } from 'react-icons/ai';
 import { FaComment, FaShare } from 'react-icons/fa';
@@ -7,20 +7,24 @@ import { IoSend } from 'react-icons/io5';
 import { MdAddPhotoAlternate } from "react-icons/md";
 
 import userImage from '../../images/userImage.jpg';
-// import Post from '../data/posts';
-import axios from 'axios';
+import { AppContext } from '../Context/AppContext';
+import { Link } from 'react-router-dom';
 
 const PostCard = () => {
     const [commentBar, setCommentBar] = useState(true);
     const [comment, setComment] = useState("");
-    const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
-    const [posts, setPosts] = useState([""]);
+
+    const { createPostHandler, displayPosts, posts, text, setText } = useContext(AppContext);
+
+    useEffect(() => {
+        displayPosts();
+    }, [text]);
 
     return (
         <div className='flex-col mx-auto w-full mt-5'>
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
-                <IoSend  size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" />
+                <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" onClick={createPostHandler} />
                 <label className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
                     <input
                         type="file"
@@ -33,22 +37,23 @@ const PostCard = () => {
                 <input
                     onKeyPress={(e) => {
                         if (e.key === "Enter") {
-                            handleUpload();
+                            createPostHandler();
                         }
                     }}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
                     className='w-full rounded outline-none pl-2'
                     type="text"
-                    name='description'
+                    name='text'
                     placeholder="What's on your mind"
+                    required
                 />
             </div>
 
             {posts.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
                     <div className="bg-white dark:bg-gray-800">
-                        <div className="p-4">
+                        <Link to={`/${item._id}`} className="p-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
                                     <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
@@ -63,9 +68,9 @@ const PostCard = () => {
                                     <BsThreeDotsVertical />
                                 </button>
                             </div>
-                        </div>
+                        </Link>
                         <div className="p-4 pt-2">
-                            <p className="text-gray-800 dark:text-gray-200">{item.description}</p>
+                            <p className="text-gray-800 dark:text-gray-200">{item.text}</p>
                             <img className="w-full h-96 object-cover mt-4 rounded-lg" src={item.imageUrl} alt="Bonnie" />
                         </div>
                         <div className="p-4 border-t dark:border-gray-700">

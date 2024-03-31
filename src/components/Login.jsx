@@ -16,14 +16,11 @@ const Login = () => {
         password,
       });
       console.log(response.data);
+      alert(response.data.msg);
       window.location.href = '/';
     } catch (error) {
-      console.log(error.response.data.msg); 
       setErrorMessage(error.response.data.msg);
-      console.log(error);
     }
-
-    
   };
 
 
