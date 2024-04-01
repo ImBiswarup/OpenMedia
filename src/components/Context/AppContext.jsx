@@ -1,14 +1,75 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 
 
 export const AppContext = createContext();
 
 export const AppContext_Provider = ({ children }) => {
-    const [value, setValue] = useState('Initial value');
+
+    const { postID } = useParams();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     const [text, setText] = useState("");
     const [posts, setPosts] = useState([]);
+    const [post, setPost] = useState('');
+
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
+
+
+
+    const login = async () => {
+        try {
+          const response = await axios.post('http://localhost:5000/user/login', {
+            email,
+            password,
+          });
+          if (response && response.data && response.data.token) {
+            const { token } = response.data;
+            setToken(token); // Assuming setToken is a state setter function to update the token state
+            localStorage.setItem('token', token); // Store token in localStorage
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set default Authorization header for all subsequent requests
+            console.log(response.data);
+            alert(response.data.msg);
+            // window.location.href = '/';
+          } else {
+            console.error('Invalid response format:', response);
+            // Handle invalid response format
+          }
+        } catch (error) {
+          // Handle error
+          console.error('Error during login:', error.message);
+          // setErrorMessage(error.response.data.msg);
+        }
+      };
+      
+
+
+
+
+    const logout = () => {
+        setToken('');
+        localStorage.removeItem('token');
+    };
+
+    const authAxios = axios.create({
+        baseURL: 'http://localhost:5000',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
 
 
     const createPostHandler = async () => {
@@ -16,11 +77,11 @@ export const AppContext_Provider = ({ children }) => {
             const response = await axios.post("http://localhost:5000/post/create-post", {
                 text
             });
-            // if (response.data.posts.text.length === 0);
-            // alert(err.response.data.msg);
+            console.log(response.data);
             setText('')
         } catch (err) {
-            alert(err.response.data.msg);
+            console.log(err.response.data.msg);
+            // alert(err.response.data.msg);
         }
     }
 
@@ -30,22 +91,42 @@ export const AppContext_Provider = ({ children }) => {
             console.log(response.data.posts);
             setPosts(response.data.posts);
         } catch (err) {
-            alert(err.response.data.msg);
+            console.log(err.response.data.msg);
+            // alert(err.response.data.msg);
         }
     }
     const displayUser = async (userID) => {
         try {
             const response = await axios.get(`http://localhost:5000/user/${userID}`);
             console.log(response.data.user);
-            // Set the user data in state or perform any other necessary actions
         } catch (err) {
             alert(err.response.data.error);
         }
     }
 
+    const fetchPost = async (postID) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/post/${postID}`);
+            setPost(response.data.post);
+            console.log(post)
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
 
     return (
-        <AppContext.Provider value={{ value, setValue, createPostHandler, displayPosts, displayUser, text, setText, posts, setPosts, }}>
+        <AppContext.Provider value={{
+            createPostHandler, displayPosts, displayUser,
+            text, setText,
+            posts, setPosts,
+            fetchPost, postID,
+            post, setPost,
+            login, logout,
+            email, setEmail,
+            password, setPassword,
+            errorMessage, setErrorMessage,
+        }}>
             {children}
         </AppContext.Provider>
     );

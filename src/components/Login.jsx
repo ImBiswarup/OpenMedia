@@ -1,27 +1,12 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-
-
+import { AppContext } from './Context/AppContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const login = async () => {
-    try {
-      const response = await axios.post('http://localhost:5000/user/login', {
-        email,
-        password,
-      });
-      console.log(response.data);
-      alert(response.data.msg);
-      window.location.href = '/';
-    } catch (error) {
-      setErrorMessage(error.response.data.msg);
-    }
-  };
+  const { email, setEmail,
+    password, setPassword,
+    errorMessage, login } = useContext(AppContext);
 
 
   return (

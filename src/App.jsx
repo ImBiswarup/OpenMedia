@@ -16,7 +16,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
-        <Route exact path='/:postID' element={<PostPage />} />
+        <Route exact path='/post/:postID' element={<PostPage />} />
         <Route exact path='/videos' element={<VideoPage />} />
         <Route exact path='/friends' element={<FriendsPage />} />
         <Route exact path='/chats' element={<ChatPage />} />

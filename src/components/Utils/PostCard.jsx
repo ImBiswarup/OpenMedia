@@ -53,7 +53,7 @@ const PostCard = () => {
             {posts.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
                     <div className="bg-white dark:bg-gray-800">
-                        <Link to={`/${item._id}`} className="p-4">
+                        <Link to={`/post/${item._id}`} className="p-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
                                     <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />

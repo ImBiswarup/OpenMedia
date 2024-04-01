@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -17,10 +19,15 @@ const Signup = () => {
         email,
         password
       });
-      console.log('response:', response.data);
+      console.log('response: ', response.data);
+      console.log('token: ', response.data.token);
+
+      Cookies.set('token', response.data.token);
+
       alert(response.data.msg);
-      window.location.href = '/log-in';
+      // window.location.href = '/log-in';
     } catch (error) {
+      alert(error.response.data.error);
       setErrorMessage(error.response.data.error);
     }
   };
