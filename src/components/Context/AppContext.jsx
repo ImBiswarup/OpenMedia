@@ -9,6 +9,7 @@ export const AppContext = createContext();
 export const AppContext_Provider = ({ children }) => {
 
     const { postID } = useParams();
+    const baseURL = 'http://localhost:5000'
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,34 +29,39 @@ export const AppContext_Provider = ({ children }) => {
     }, []);
 
 
+    const authAxios = axios.create({
+        baseURL: baseURL,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
 
     const login = async () => {
         try {
-          const response = await axios.post('http://localhost:5000/user/login', {
-            email,
-            password,
-          });
-          if (response && response.data && response.data.token) {
-            const { token } = response.data;
-            setToken(token); // Assuming setToken is a state setter function to update the token state
-            localStorage.setItem('token', token); // Store token in localStorage
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Set default Authorization header for all subsequent requests
-            console.log(response.data);
-            alert(response.data.msg);
-            // window.location.href = '/';
-          } else {
-            console.error('Invalid response format:', response);
-            // Handle invalid response format
-          }
+            const response = await authAxios.post('http://localhost:5000/user/login', {
+                email,
+                password,
+            });
+            if (response && response.data && response.data.token) {
+                const { token } = response.data;
+                setToken(token);
+                localStorage.setItem('token', token);
+                // Assuming you have retrieved the JWT token and stored it in a variable named 'token'
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                console.log(response.data);
+                alert(response.data.msg);
+                // window.location.href = '/';
+            } else {
+                console.error('Invalid response format:', response);
+                // Handle invalid response format
+            }
         } catch (error) {
-          // Handle error
-          console.error('Error during login:', error.message);
-          // setErrorMessage(error.response.data.msg);
+            // Handle error
+            console.error('Error during login:', error.message);
+            // setErrorMessage(error.response.data.msg);
         }
-      };
-      
-
-
+    };
 
 
     const logout = () => {
@@ -63,18 +69,10 @@ export const AppContext_Provider = ({ children }) => {
         localStorage.removeItem('token');
     };
 
-    const authAxios = axios.create({
-        baseURL: 'http://localhost:5000',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-
-
 
     const createPostHandler = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/post/create-post", {
+            const response = await authAxios.post(`${baseURL}/post/create-post`, {
                 text
             });
             console.log(response.data);
@@ -87,7 +85,7 @@ export const AppContext_Provider = ({ children }) => {
 
     const displayPosts = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/post");
+            const response = await authAxios.get("http://localhost:5000/post");
             console.log(response.data.posts);
             setPosts(response.data.posts);
         } catch (err) {
@@ -97,7 +95,7 @@ export const AppContext_Provider = ({ children }) => {
     }
     const displayUser = async (userID) => {
         try {
-            const response = await axios.get(`http://localhost:5000/user/${userID}`);
+            const response = await authAxios.get(`http://localhost:5000/user/${userID}`);
             console.log(response.data.user);
         } catch (err) {
             alert(err.response.data.error);
@@ -106,7 +104,7 @@ export const AppContext_Provider = ({ children }) => {
 
     const fetchPost = async (postID) => {
         try {
-            const response = await axios.get(`http://localhost:5000/post/${postID}`);
+            const response = await authAxios.get(`http://localhost:5000/post/${postID}`);
             setPost(response.data.post);
             console.log(post)
         } catch (err) {
