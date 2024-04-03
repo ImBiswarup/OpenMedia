@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 
@@ -13,7 +14,7 @@ export const AppContext_Provider = ({ children }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+
     const [errorMessage, setErrorMessage] = useState('');
 
     const [text, setText] = useState("");
@@ -23,7 +24,7 @@ export const AppContext_Provider = ({ children }) => {
     const [token, setToken] = useState('');
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = Cookies.get('token');
         if (storedToken) {
             setToken(storedToken);
         }
@@ -47,29 +48,27 @@ export const AppContext_Provider = ({ children }) => {
             if (response && response.data && response.data.token) {
                 const { token } = response.data;
                 setToken(token);
-                localStorage.setItem('token', token);
-                // Assuming you have retrieved the JWT token and stored it in a variable named 'token'
+                Cookies.set('token', token); // Set token in cookies
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 console.log(response.data);
                 alert(response.data.msg);
-                // window.location.href = '/';
+                window.location.href = '/';
             } else {
                 console.error('Invalid response format:', response);
                 // Handle invalid response format
             }
         } catch (error) {
             // Handle error
-            console.error('Error during login:', error.message);
-            // setErrorMessage(error.response.data.msg);
+            // console.error('Error during login:', error.message);
+            setErrorMessage(error.response.data.msg);
         }
     };
 
 
     const logout = () => {
         setToken('');
-        localStorage.removeItem('token');
+        Cookies.remove('token'); 
     };
-
 
     const createPostHandler = async () => {
         try {

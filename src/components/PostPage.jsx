@@ -9,11 +9,12 @@ import { IoSend } from 'react-icons/io5';
 
 import userImage from '../images/userImage.jpg';
 import { AppContext } from './Context/AppContext';
+// import Post from '../../../server/models/Posts';
 const PostPage = () => {
-    
+
     const { postID } = useParams();
 
-    const { fetchPost, post } = useContext(AppContext)
+    const { fetchPost, post, logout } = useContext(AppContext)
 
     const [commentBar, setCommentBar] = useState(true);
     const [comment, setComment] = useState("");
@@ -22,6 +23,7 @@ const PostPage = () => {
         fetchPost(postID);
     }, [postID]);
 
+    console.log(post)
 
     if (!post) {
         return <div>Loading...</div>;
@@ -38,7 +40,7 @@ const PostPage = () => {
                                 <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                 <div>
                                     <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                        {post._id}
+                                        {post.createdBy.username}
                                     </h5>
                                     <span className="text-sm text-gray-500 dark:text-gray-400">{post.createdAt}</span>
                                 </div>

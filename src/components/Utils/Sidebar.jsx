@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import userImage from '../../images/userImage.jpg';
 import { Link } from 'react-router-dom';
 import { FaHome, FaUserPlus, FaVideo } from 'react-icons/fa';
 import { AiFillMessage } from 'react-icons/ai';
+import { AppContext } from '../Context/AppContext';
+
 
 const sidebarLinks = [
     {
@@ -28,6 +30,11 @@ const sidebarLinks = [
 ];
 
 const Sidebar = () => {
+
+    const { post } = useContext(AppContext)
+
+    console.log(post.createdBy)
+
     return (
         <div className="hidden lg:flex-col lg:flex text-white md:w-[30%] mx-auto text-center sticky md:ml-4">
             <div className="p-4">
@@ -35,7 +42,7 @@ const Sidebar = () => {
                     <img className="rounded-full h-28 w-28" src={userImage} alt="User Profile" />
                 </div>
                 <div className="desc mb-2 text-2xl font-semibold">
-                    Name
+                    {post?.createdBy?.username || "name"}
                 </div>
                 <button className='hover:bg-blue-500 text-lg transition-all rounded-xl p-2'>
                     Edit profile

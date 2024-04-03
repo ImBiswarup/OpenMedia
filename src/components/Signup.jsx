@@ -25,13 +25,15 @@ const Signup = () => {
 
       Cookies.set('token', response.data.token);
 
-      alert(response.data.msg);
-      // window.location.href = '/log-in';
+      // alert(response.data.msg);
+      window.location.href = '/log-in';
     } catch (error) {
       alert(error.response.data.error);
       setErrorMessage(error.response.data.error);
     }
   };
+
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <div className="w-full max-w-md p-4 bg-gray-100 dark:bg-gray-800 border rounded-lg shadow-md">

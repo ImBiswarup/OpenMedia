@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 
 import { AiFillLike } from 'react-icons/ai';
 import { FaComment, FaShare } from 'react-icons/fa';
@@ -9,6 +9,10 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import userImage from '../../images/userImage.jpg';
 import { AppContext } from '../Context/AppContext';
 import { Link } from 'react-router-dom';
+import UploadWidget from '../../../utils/UploadWidget';
+
+
+
 
 const PostCard = () => {
     const [commentBar, setCommentBar] = useState(true);
@@ -16,6 +20,7 @@ const PostCard = () => {
     const [image, setImage] = useState("");
 
     const { createPostHandler, displayPosts, posts, text, setText } = useContext(AppContext);
+
 
     useEffect(() => {
         displayPosts();
@@ -26,13 +31,7 @@ const PostCard = () => {
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
                 <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" onClick={createPostHandler} />
                 <label className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
-                    <input
-                        type="file"
-                        name='image'
-                        className='hidden'
-                        onChange={(e) => setImage(e.target.files[0])}
-                    />
-                    <MdAddPhotoAlternate className='text-gray-500 hover:text-gray-900 ' size={30} />
+                    <UploadWidget />
                 </label>
                 <input
                     onKeyPress={(e) => {
@@ -50,6 +49,10 @@ const PostCard = () => {
                 />
             </div>
 
+            <div className="container text-white">
+
+            </div>
+
             {posts.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
                     <div className="bg-white dark:bg-gray-800">
@@ -59,7 +62,7 @@ const PostCard = () => {
                                     <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                     <div>
                                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                            {item._id}
+                                            {item.createdBy.username}
                                         </h5>
                                         <span className="text-sm text-gray-500 dark:text-gray-400">{item.createdAt}</span>
                                     </div>
