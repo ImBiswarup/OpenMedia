@@ -1,23 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-
+import axios from 'axios';
 import { AiFillLike } from 'react-icons/ai';
 import { FaComment, FaShare } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoSend } from 'react-icons/io5';
 
 import userImage from '../images/userImage.jpg';
-import { AppContext } from './Context/AppContext';
-// import Post from '../../../server/models/Posts';
 const PostPage = () => {
 
     const { postID } = useParams();
-
-    const { fetchPost, post, logout } = useContext(AppContext)
-
+    const [post, setPost] = useState('');
     const [commentBar, setCommentBar] = useState(true);
     const [comment, setComment] = useState("");
+
+    const logout = () => {
+        setToken('');
+        Cookies.remove('token');
+    };
+
+    const fetchPost = async (postID) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/post/${postID}`);
+            setPost(response.data.post);
+            console.log(post)
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
 
     useEffect(() => {
         fetchPost(postID);
@@ -40,7 +52,8 @@ const PostPage = () => {
                                 <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                 <div>
                                     <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                        {post.createdBy.username}
+                                        {/* {post.createdBy.username} */}
+                                        name
                                     </h5>
                                     <span className="text-sm text-gray-500 dark:text-gray-400">{post.createdAt}</span>
                                 </div>
@@ -52,7 +65,7 @@ const PostPage = () => {
                     </div>
                     <div className="p-4 pt-2">
                         <p className="text-gray-800 dark:text-gray-200">{post.text}</p>
-                        <img className="w-full h-96 object-cover mt-4 rounded-lg" src={userImage} alt="Bonnie" />
+                        <img className="w-full h-96 object-cover mt-4 rounded-lg" src={post.imageUrl} alt="Bonnie" />
                     </div>
                     <div className="p-4 border-t dark:border-gray-700">
                         <div className="flex justify-between mt-2">

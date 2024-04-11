@@ -1,13 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppContext } from './Context/AppContext';
+import axios from 'axios';
+import Cookies from 'js-cookie'
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
+  const [token, setToken] = useState('')
 
-  const { email, setEmail,
-    password, setPassword,
-    errorMessage, login } = useContext(AppContext);
-
+  const login = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/user/login', {
+        email,
+        password,
+      });
+      if (response && response.data && response.data.token) {
+        const { token } = response.data;
+        setToken(token);
+        Cookies.set('token', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        console.log(response.data);
+        alert(response.data.msg);
+        window.location.href = '/';
+      } else {
+        console.error('Invalid response format:', response);
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Error during login:', error);
+      // setErrorMessage(error.response.data.msg);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">

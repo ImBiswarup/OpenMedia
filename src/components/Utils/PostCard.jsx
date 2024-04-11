@@ -7,20 +7,51 @@ import { IoSend } from 'react-icons/io5';
 import { MdAddPhotoAlternate } from "react-icons/md";
 
 import userImage from '../../images/userImage.jpg';
-import { AppContext } from '../Context/AppContext';
 import { Link } from 'react-router-dom';
-import UploadWidget from '../../../utils/UploadWidget';
-
-
-
+import axios from 'axios'
 
 const PostCard = () => {
     const [commentBar, setCommentBar] = useState(true);
     const [comment, setComment] = useState("");
     const [image, setImage] = useState("");
+    const [posts, setPosts] = useState([]);
+    const [text, setText] = useState("");
 
-    const { createPostHandler, displayPosts, posts, text, setText } = useContext(AppContext);
+    const handleFileChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+    const handleTextChange = (e) => {
+        setText(e.target.value);
+    }
+    const createPostHandler = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('image', image);
+            formData.append('text', text);
 
+            const response = await axios.post(`http://localhost:5000/post/uploads`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+            setText('');
+            setImage(null);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const displayPosts = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/post");
+            console.log(response.data.posts);
+            setPosts(response.data.posts);
+        } catch (err) {
+            console.log(err.response.data.msg);
+            // alert(err.response.data.msg);
+        }
+    }
 
     useEffect(() => {
         displayPosts();
@@ -31,7 +62,12 @@ const PostCard = () => {
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
                 <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" onClick={createPostHandler} />
                 <label className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
-                    <UploadWidget />
+                    <input
+                        type="file"
+                        name='image'
+                        className='hidden'
+                        onChange={handleFileChange} />
+                    <MdAddPhotoAlternate onClick={createPostHandler} className='text-gray-500 hover:text-gray-900 ' size={30} />
                 </label>
                 <input
                     onKeyPress={(e) => {
@@ -39,11 +75,11 @@ const PostCard = () => {
                             createPostHandler();
                         }
                     }}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
                     className='w-full rounded outline-none pl-2'
+                    value={text}
                     type="text"
                     name='text'
+                    onChange={handleTextChange}
                     placeholder="What's on your mind"
                     required
                 />
@@ -62,7 +98,8 @@ const PostCard = () => {
                                     <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                     <div>
                                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                            {item.createdBy.username}
+                                            {/* {item.createdBy.username} */}
+                                            name
                                         </h5>
                                         <span className="text-sm text-gray-500 dark:text-gray-400">{item.createdAt}</span>
                                     </div>
