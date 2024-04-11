@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import userImage from '../../images/userImage.jpg';
 import { Link } from 'react-router-dom';
 import { FaHome, FaUserPlus, FaVideo } from 'react-icons/fa';
 import { AiFillMessage } from 'react-icons/ai';
-
 
 const sidebarLinks = [
     {
@@ -29,9 +28,6 @@ const sidebarLinks = [
 ];
 
 const Sidebar = () => {
-
-
-
     return (
         <div className="hidden lg:flex-col lg:flex text-white md:w-[30%] mx-auto text-center sticky md:ml-4">
             <div className="p-4">

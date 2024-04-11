@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 
 const Signup = () => {
-  
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,20 +19,12 @@ const Signup = () => {
         email,
         password
       });
-      console.log('response: ', response.data);
-      console.log('token: ', response.data.token);
-
-      Cookies.set('token', response.data.token);
-
-      // alert(response.data.msg);
+      alert(response.data.msg);
       window.location.href = '/log-in';
     } catch (error) {
-      alert(error.response.data.error);
       setErrorMessage(error.response.data.error);
     }
   };
-
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <div className="w-full max-w-md p-4 bg-gray-100 dark:bg-gray-800 border rounded-lg shadow-md">

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
 import axios from 'axios';
 import { AiFillLike } from 'react-icons/ai';
 import { FaComment, FaShare } from 'react-icons/fa';
@@ -52,8 +51,8 @@ const PostPage = () => {
                                 <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                 <div>
                                     <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                        {/* {post.createdBy.username} */}
-                                        name
+                                        {post.createdBy.username}
+                                        
                                     </h5>
                                     <span className="text-sm text-gray-500 dark:text-gray-400">{post.createdAt}</span>
                                 </div>

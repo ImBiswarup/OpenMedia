@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { AiFillLike } from 'react-icons/ai';
 import { FaComment, FaShare } from 'react-icons/fa';
@@ -9,6 +9,8 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import userImage from '../../images/userImage.jpg';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import Cookies from 'js-cookie'
+
 
 const PostCard = () => {
     const [commentBar, setCommentBar] = useState(true);
@@ -28,10 +30,10 @@ const PostCard = () => {
             const formData = new FormData();
             formData.append('image', image);
             formData.append('text', text);
-
             const response = await axios.post(`http://localhost:5000/post/uploads`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + Cookies.get('token'),
                 }
             });
             console.log(response.data);
@@ -48,8 +50,7 @@ const PostCard = () => {
             console.log(response.data.posts);
             setPosts(response.data.posts);
         } catch (err) {
-            console.log(err.response.data.msg);
-            // alert(err.response.data.msg);
+            alert(err.response.data.msg);
         }
     }
 
@@ -88,7 +89,6 @@ const PostCard = () => {
             <div className="container text-white">
 
             </div>
-
             {posts.map((item, index) => (
                 <div key={index} className="w-full lg:w-[50%] xl:w-[50%] mx-auto overflow-hidden shadow-lg rounded-lg my-6">
                     <div className="bg-white dark:bg-gray-800">
@@ -98,8 +98,7 @@ const PostCard = () => {
                                     <img className="w-10 h-10 rounded-full cursor-pointer" src={userImage} alt="User" />
                                     <div>
                                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">
-                                            {/* {item.createdBy.username} */}
-                                            name
+                                            {item.createdBy ? item.createdBy.username : 'loading...'}
                                         </h5>
                                         <span className="text-sm text-gray-500 dark:text-gray-400">{item.createdAt}</span>
                                     </div>

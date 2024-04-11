@@ -15,8 +15,9 @@ const Login = () => {
         email,
         password,
       });
-      if (response && response.data && response.data.token) {
-        const { token } = response.data;
+      if (response && response.data) {
+        console.log(response.data.user.token);
+        const { token } = response.data.user;
         setToken(token);
         Cookies.set('token', token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -27,9 +28,7 @@ const Login = () => {
         console.error('Invalid response format:', response);
       }
     } catch (error) {
-      // Handle error
-      console.error('Error during login:', error);
-      // setErrorMessage(error.response.data.msg);
+      setErrorMessage(error.response.data.msg);
     }
   };
 
