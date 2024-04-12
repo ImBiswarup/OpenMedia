@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Signup = () => {
 
@@ -19,7 +22,7 @@ const Signup = () => {
         email,
         password
       });
-      alert(response.data.msg);
+      toast.success(response.data.msg);
       window.location.href = '/log-in';
     } catch (error) {
       setErrorMessage(error.response.data.error);
@@ -71,6 +74,7 @@ const Signup = () => {
           >
             Create Account
           </button>
+          <ToastContainer />
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Already have an account? <Link className='text-blue-700 hover:underline dark:text-blue-500' to={'/log-in'}>Log in to your account</Link>
           </div>

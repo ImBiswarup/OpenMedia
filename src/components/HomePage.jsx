@@ -6,7 +6,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="flex overflow-scroll">
+      <div className="flex overflow-scroll h-screen">
         <Sidebar />
         <PostCard />
       </div>

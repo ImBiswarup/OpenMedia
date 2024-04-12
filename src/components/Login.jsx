@@ -12,9 +12,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [token, setToken] = useState('')
 
-  const notify = () => toast("Wow so easy!");
-
-
   const login = async () => {
     try {
       const response = await axios.post('http://localhost:5000/user/login', {
@@ -34,7 +31,7 @@ const Login = () => {
         console.error('Invalid response format:', response);
       }
     } catch (error) {
-      toast(error.response.data.msg);
+      toast.error(error.response.data.msg);
     }
   };
 

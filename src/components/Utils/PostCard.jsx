@@ -63,13 +63,13 @@ const PostCard = () => {
             const response = await axios.get("http://localhost:5000/post");
             setPosts(response.data.posts);
         } catch (err) {
-            alert(err.response.data.msg);
+            toast.error(err.response.data.msg);
         }
     }
 
     useEffect(() => {
         displayPosts();
-    }, [text]);
+    }, [posts]);
 
     return (
         <div className='flex-col mx-auto w-full mt-5'>
