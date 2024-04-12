@@ -11,6 +11,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const PostCard = () => {
     const [commentBar, setCommentBar] = useState(true);
@@ -36,18 +40,27 @@ const PostCard = () => {
                     'Authorization': 'Bearer ' + Cookies.get('token'),
                 }
             });
-            console.log(response.data);
+            toast.success(response.data.msg);
             setText('');
             setImage(null);
         } catch (err) {
-            console.log(err);
+            toast.error(err.response.data.msg), {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            }
         }
     };
 
     const displayPosts = async () => {
         try {
             const response = await axios.get("http://localhost:5000/post");
-            console.log(response.data.posts);
             setPosts(response.data.posts);
         } catch (err) {
             alert(err.response.data.msg);
@@ -62,6 +75,18 @@ const PostCard = () => {
         <div className='flex-col mx-auto w-full mt-5'>
             <div className="md:w-1/2 w-full relative bg-white rounded text-black container h-14 flex items-center justify-end mx-auto">
                 <IoSend size={28} className="absolute items-center mr-2 text-gray-500 hover:text-gray-900 transition-all cursor-pointer" onClick={createPostHandler} />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    transition:Bounce />
                 <label className="flex-1 text-center flex items-center justify-center cursor-pointer bg-white ml-2">
                     <input
                         type="file"

@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [token, setToken] = useState('')
+
+  const notify = () => toast("Wow so easy!");
+
 
   const login = async () => {
     try {
@@ -22,13 +28,13 @@ const Login = () => {
         Cookies.set('token', token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         console.log(response.data);
-        alert(response.data.msg);
+        toast.success(response.data.msg);
         window.location.href = '/';
       } else {
         console.error('Invalid response format:', response);
       }
     } catch (error) {
-      setErrorMessage(error.response.data.msg);
+      toast(error.response.data.msg);
     }
   };
 
@@ -67,6 +73,7 @@ const Login = () => {
           >
             Login to your account
           </button>
+          <ToastContainer />
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered? <Link to="/sign-up" className="text-blue-700 hover:underline dark:text-blue-500">Create account</Link>
           </div>
